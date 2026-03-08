@@ -3,6 +3,8 @@ package hn.uth.cajeroautomatico.beans;
 import hn.uth.cajeroautomatico.models.Cliente;
 import hn.uth.cajeroautomatico.util.CargaDatos;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
@@ -48,7 +50,16 @@ public class CajeroBean implements Serializable {
     }
 
     public void consultarSaldo() {
-        // TODO: implementar consulta de saldo
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        Cliente cliente = buscarCliente(numeroCuenta);
+        if (cliente == null || !validarPin(cliente, pin)) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "PIN invalido", null));
+            return;
+        }
+
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                "Saldo actual: L. " + String.format("%.2f", cliente.getSaldo()), null));
     }
 
     // Getters y Setters
