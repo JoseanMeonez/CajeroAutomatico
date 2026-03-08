@@ -40,7 +40,6 @@ public class CajeroBean implements Serializable {
         return cliente.getPin().equals(pin);
     }
 
-
     public void realizarDeposito() {
         FacesContext context = FacesContext.getCurrentInstance();
 
@@ -61,27 +60,30 @@ public class CajeroBean implements Serializable {
                 "Operacion exitosa - Nuevo saldo: L. " + String.format("%.2f", cliente.getSaldo()), null));
     }
 
-
     public void realizarRetiro() {
-            FacesContext context = FacesContext.getCurrentInstance();
+        FacesContext context = FacesContext.getCurrentInstance();
 
-            Cliente cliente = buscarCliente(numeroCuenta);
-            if (cliente == null || !validarPin(cliente, pin)) {
-                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "PIN invalido", null));
-                return;
-            }
-
-            if (monto <= 0) {
-                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Monto invalido", null));
-                return;
-            }
-
-            cliente.setSaldo(cliente.getSaldo() + monto);
-            CargaDatos.guardarClientes(clientes);
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Operacion exitosa - Nuevo saldo: L. " + String.format("%.2f", cliente.getSaldo()), null));
+        Cliente cliente = buscarCliente(numeroCuenta);
+        if (cliente == null || !validarPin(cliente, pin)) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "PIN invalido", null));
+            return;
         }
 
+        if (monto <= 0) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Monto invalido", null));
+            return;
+        }
+
+        if (cliente.getSaldo() < monto) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Saldo insuficiente", null));
+            return;
+        }
+
+        cliente.setSaldo(cliente.getSaldo() - monto);
+        CargaDatos.guardarClientes(clientes);
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                "Operacion exitosa - Nuevo saldo: L. " + String.format("%.2f", cliente.getSaldo()), null));
+    }
 
     public void consultarSaldo() {
         FacesContext context = FacesContext.getCurrentInstance();
