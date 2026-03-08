@@ -12,16 +12,18 @@
             <h:form>
                 <div class="campo">
                     <h:outputLabel for="cuenta" value="Numero de Cuenta:"/>
-                    <h:inputText id="cuenta" value="#{cajeroBean.numeroCuenta}"/>
+                    <h:inputText id="cuenta" value="#{cajeroBean.numeroCuenta}" required="true"
+                                 requiredMessage="Numero de cuenta es requerido"/>
                     <h:message for="cuenta" styleClass="error"/>
                 </div>
                 <div class="campo">
                     <h:outputLabel for="pin" value="PIN:"/>
-                    <h:inputSecret id="pin" value="#{cajeroBean.pin}"/>
+                    <h:inputSecret id="pin" value="#{cajeroBean.pin}" required="true"
+                                   requiredMessage="PIN es requerido"/>
                     <h:message for="pin" styleClass="error"/>
                 </div>
                 <div class="campo">
-                    <h:commandButton value="Consultar" styleClass="btn"/>
+                    <h:commandButton value="Consultar" action="#{cajeroBean.consultarSaldo}" styleClass="btn"/>
                 </div>
                 <h:messages globalOnly="true" styleClass="mensajes"/>
             </h:form>
