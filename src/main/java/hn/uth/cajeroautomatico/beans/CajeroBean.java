@@ -42,11 +42,28 @@ public class CajeroBean implements Serializable {
 
 
     public void realizarDeposito() {
-        // TODO: implementar logica de deposito
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        Cliente cliente = buscarCliente(numeroCuenta);
+        if (cliente == null || !validarPin(cliente, pin)) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "PIN invalido", null));
+            return;
+        }
+
+        if (monto <= 0) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Monto invalido", null));
+            return;
+        }
+
+        cliente.setSaldo(cliente.getSaldo() + monto);
+        CargaDatos.guardarClientes(clientes);
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                "Operacion exitosa - Nuevo saldo: L. " + String.format("%.2f", cliente.getSaldo()), null));
     }
 
+
     public void realizarRetiro() {
-        // TODO: implementar logica de retiro
+        // TODO: implementar logica de retiraki
     }
 
     public void consultarSaldo() {

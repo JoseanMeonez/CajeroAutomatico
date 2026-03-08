@@ -3,9 +3,11 @@ package hn.uth.cajeroautomatico.util;
 import hn.uth.cajeroautomatico.models.Cliente;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -26,6 +28,24 @@ public class CargaDatos {
             }
         }
         return rutaCsv;
+    }
+    public static void guardarClientes(List<Cliente> clientes) {
+        Path ruta = obtenerRutaCsv();
+        if (ruta == null) {
+            System.err.println("No se pudo determinar la ruta del CSV para guardar");
+            return;
+        }
+
+        try (BufferedWriter bw = Files.newBufferedWriter(ruta)) {
+            bw.write("numeroCuenta,pin,saldo");
+            bw.newLine();
+            for (Cliente c : clientes) {
+                bw.write(c.getNumeroCuenta() + "," + c.getPin() + "," + String.format("%.2f", c.getSaldo()));
+                bw.newLine();
+            }
+        } catch (Exception e) {
+            System.err.println("Error al guardar clientes en CSV: " + e.getMessage());
+        }
     }
 
     public static List<Cliente> cargarClientes() {
