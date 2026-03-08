@@ -1,6 +1,8 @@
 package hn.uth.cajeroautomatico.beans;
 
 import hn.uth.cajeroautomatico.models.Cliente;
+import hn.uth.cajeroautomatico.util.CargaDatos;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
@@ -17,6 +19,25 @@ public class CajeroBean implements Serializable {
     private String pin;
     private double monto;
     private String mensaje;
+
+    @PostConstruct
+    public void init() {
+        clientes = CargaDatos.cargarClientes();
+    }
+
+    private Cliente buscarCliente(String numeroCuenta) {
+        for (Cliente c : clientes) {
+            if (c.getNumeroCuenta().equals(numeroCuenta)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    private boolean validarPin(Cliente cliente, String pin) {
+        return cliente.getPin().equals(pin);
+    }
+
 
     public void realizarDeposito() {
         // TODO: implementar logica de deposito
