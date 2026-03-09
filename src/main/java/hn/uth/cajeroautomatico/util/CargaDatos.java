@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CargaDatos {
+
     private static Path rutaCsv;
 
     private static Path obtenerRutaCsv() {
@@ -28,24 +29,6 @@ public class CargaDatos {
             }
         }
         return rutaCsv;
-    }
-    public static void guardarClientes(List<Cliente> clientes) {
-        Path ruta = obtenerRutaCsv();
-        if (ruta == null) {
-            System.err.println("No se pudo determinar la ruta del CSV para guardar");
-            return;
-        }
-
-        try (BufferedWriter bw = Files.newBufferedWriter(ruta)) {
-            bw.write("numeroCuenta,pin,saldo");
-            bw.newLine();
-            for (Cliente c : clientes) {
-                bw.write(c.getNumeroCuenta() + "," + c.getPin() + "," + String.format("%.2f", c.getSaldo()));
-                bw.newLine();
-            }
-        } catch (Exception e) {
-            System.err.println("Error al guardar clientes en CSV: " + e.getMessage());
-        }
     }
 
     public static List<Cliente> cargarClientes() {
@@ -76,5 +59,22 @@ public class CargaDatos {
         return clientes;
     }
 
+    public static void guardarClientes(List<Cliente> clientes) {
+        Path ruta = obtenerRutaCsv();
+        if (ruta == null) {
+            System.err.println("No se pudo determinar la ruta del CSV para guardar");
+            return;
+        }
 
+        try (BufferedWriter bw = Files.newBufferedWriter(ruta)) {
+            bw.write("numeroCuenta,pin,saldo");
+            bw.newLine();
+            for (Cliente c : clientes) {
+                bw.write(c.getNumeroCuenta() + "," + c.getPin() + "," + String.format("%.2f", c.getSaldo()));
+                bw.newLine();
+            }
+        } catch (Exception e) {
+            System.err.println("Error al guardar clientes en CSV: " + e.getMessage());
+        }
+    }
 }
