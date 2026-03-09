@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/templates/layout.xhtml">
@@ -20,6 +21,11 @@
                     <p:button value="Retiro" outcome="/retiro" icon="pi pi-minus-circle" styleClass="menu-btn"/>
                     <p:button value="Consultar Saldo" outcome="/consulta" icon="pi pi-search" styleClass="menu-btn"/>
                 </div>
+            </p:card>
+            <p:card style="margin-top: 1rem;">
+                <f:facet name="title">Grupo #2</f:facet>
+                <p>202310020071 - Jose Rafael Cruz Rodriguez</p>
+                <p>201910030181 - Jose Andres Meoñez Viana</p>
             </p:card>
         </div>
     </ui:define>
