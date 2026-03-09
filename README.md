@@ -74,15 +74,8 @@ Si la información es correcta, el sistema muestra el saldo actual de la cuenta.
 | 1004   | 3456 | L. 25,000.75    |
 | 1005   | 7890 | L. 150.00       |
 
-## ANEXOS
-**Ruta de CSV:** CajeroAutomatico\src\main\resources\clientes.csv
-
----
-**En un momento se tuvo errores para correr el repositorio, la solucion fue agregar manualmente el toomcat, 
-para luego ir a Run → Edit Configurations - Tomcat Server - Deployment - + - Artifact - CajeroAutomatico:war - 
-Apply -
-OK**
 
 ---
 **Jose Rafael Cruz Rodriguez – 202310020071**
+
 **Jose Andres Meoñez Viana   – 201910030181**
