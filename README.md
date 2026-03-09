@@ -1,3 +1,13 @@
+> **Nota Importante sobre Configuración:**  
+> En un momento se tuvo errores para correr el repositorio, la solución fue agregar manualmente el Tomcat siguiendo estos pasos:
+
+1. Ir a **Run** → **Edit Configurations**
+2. Seleccionar **Tomcat Server** → **Deployment**
+3. Presionar **+** → **Artifact** → **CajeroAutomatico:war**
+4. Click en **Apply** → **OK**
+---
+**Ruta de CSV:** CajeroAutomatico\src\main\resources\clientes.csv
+
 # Funcionalidad del Cajero Automático
 
 La aplicación simula las operaciones básicas de un cajero automático permitiendo a los usuarios realizar depósitos, retiros y consultas de saldo mediante un número de cuenta y un PIN.
