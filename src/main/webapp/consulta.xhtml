@@ -2,31 +2,40 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/templates/layout.xhtml">
     <ui:define name="titulo">Consulta de Saldo</ui:define>
     <ui:define name="contenido">
-        <div class="formulario">
-            <h2>Consulta de Saldo</h2>
-            <h:form>
-                <div class="campo">
-                    <h:outputLabel for="cuenta" value="Numero de Cuenta:"/>
-                    <h:inputText id="cuenta" value="#{cajeroBean.numeroCuenta}" required="true"
-                                 requiredMessage="Numero de cuenta es requerido"/>
-                    <h:message for="cuenta" styleClass="error"/>
-                </div>
-                <div class="campo">
-                    <h:outputLabel for="pin" value="PIN:"/>
-                    <h:inputSecret id="pin" value="#{cajeroBean.pin}" required="true"
-                                   requiredMessage="PIN es requerido"/>
-                    <h:message for="pin" styleClass="error"/>
-                </div>
-                <div class="campo">
-                    <h:commandButton value="Consultar" action="#{cajeroBean.consultarSaldo}" styleClass="btn"/>
-                </div>
-                <h:messages globalOnly="true" styleClass="mensajes"/>
-            </h:form>
+        <div class="panel-centrado">
+            <p:card>
+                <f:facet name="title" xmlns:f="http://xmlns.jcp.org/jsf/core">
+                    <div class="panel-titulo">
+                        <i class="pi pi-search"/>
+                        <span>Consulta de Saldo</span>
+                    </div>
+                </f:facet>
+                <h:form styleClass="formulario">
+                    <div class="campo">
+                        <p:outputLabel for="cuenta" value="Numero de Cuenta"/>
+                        <p:inputText id="cuenta" value="#{cajeroBean.numeroCuenta}" required="true"
+                                     requiredMessage="Numero de cuenta es requerido" styleClass="campo-input"/>
+                        <p:message for="cuenta"/>
+                    </div>
+                    <div class="campo">
+                        <p:outputLabel for="pin" value="PIN"/>
+                        <p:password id="pin" value="#{cajeroBean.pin}" required="true"
+                                    requiredMessage="PIN es requerido" feedback="false" styleClass="campo-input"/>
+                        <p:message for="pin"/>
+                    </div>
+                    <div class="campo-boton">
+                        <p:commandButton value="Consultar" action="#{cajeroBean.consultarSaldo}"
+                                         icon="pi pi-search" update="@form" styleClass="btn-accion"/>
+                    </div>
+                    <p:messages globalOnly="true" showDetail="false" closable="true" styleClass="mensajes-global"/>
+                </h:form>
+            </p:card>
         </div>
     </ui:define>
 </ui:composition>

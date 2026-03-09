@@ -2,19 +2,23 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/templates/layout.xhtml">
     <ui:define name="titulo">Menu Principal</ui:define>
     <ui:define name="contenido">
-        <div class="menu">
+        <div class="panel-centrado">
             <p:card>
-                <f:facet name="title">Seleccione una operacion</f:facet>
+                <f:facet name="title" xmlns:f="http://xmlns.jcp.org/jsf/core">
+                    <div class="panel-titulo">
+                        <i class="pi pi-th-large"/>
+                        <span>Seleccione una operacion</span>
+                    </div>
+                </f:facet>
                 <div class="menu-opciones">
-                    <p:button value="Deposito" outcome="/deposito" icon="pi pi-plus-circle"/>
-                    <p:button value="Retiro" outcome="/retiro" icon="pi pi-minus-circle"/>
-                    <p:button value="Consultar Saldo" outcome="/consulta" icon="pi pi-search"/>
+                    <p:button value="Deposito" outcome="/deposito" icon="pi pi-plus-circle" styleClass="menu-btn"/>
+                    <p:button value="Retiro" outcome="/retiro" icon="pi pi-minus-circle" styleClass="menu-btn"/>
+                    <p:button value="Consultar Saldo" outcome="/consulta" icon="pi pi-search" styleClass="menu-btn"/>
                 </div>
             </p:card>
         </div>
