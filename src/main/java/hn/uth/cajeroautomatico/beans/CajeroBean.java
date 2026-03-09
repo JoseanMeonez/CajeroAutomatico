@@ -20,7 +20,6 @@ public class CajeroBean implements Serializable {
     private String numeroCuenta;
     private String pin;
     private double monto;
-    private String mensaje;
 
     @PostConstruct
     public void init() {
@@ -100,14 +99,6 @@ public class CajeroBean implements Serializable {
 
     // Getters y Setters
 
-    public List<Cliente> getClientes() {
-        return clientes;
-    }
-
-    public void setClientes(List<Cliente> clientes) {
-        this.clientes = clientes;
-    }
-
     public String getNumeroCuenta() {
         return numeroCuenta;
     }
@@ -131,13 +122,4 @@ public class CajeroBean implements Serializable {
     public void setMonto(double monto) {
         this.monto = monto;
     }
-
-    public String getMensaje() {
-        return mensaje;
-    }
-
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
-    }
-
 }
