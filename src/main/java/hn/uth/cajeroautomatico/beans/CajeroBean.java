@@ -1,6 +1,10 @@
 package hn.uth.cajeroautomatico.beans;
 
 import hn.uth.cajeroautomatico.models.Cliente;
+import hn.uth.cajeroautomatico.util.CargaDatos;
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
@@ -18,16 +22,80 @@ public class CajeroBean implements Serializable {
     private double monto;
     private String mensaje;
 
+    @PostConstruct
+    public void init() {
+        clientes = CargaDatos.cargarClientes();
+    }
+
+    private Cliente buscarCliente(String numeroCuenta) {
+        for (Cliente c : clientes) {
+            if (c.getNumeroCuenta().equals(numeroCuenta)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    private boolean validarPin(Cliente cliente, String pin) {
+        return cliente.getPin().equals(pin);
+    }
+
     public void realizarDeposito() {
-        // TODO: implementar logica de deposito
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        Cliente cliente = buscarCliente(numeroCuenta);
+        if (cliente == null || !validarPin(cliente, pin)) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "PIN invalido", null));
+            return;
+        }
+
+        if (monto <= 0) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Monto invalido", null));
+            return;
+        }
+
+        cliente.setSaldo(cliente.getSaldo() + monto);
+        CargaDatos.guardarClientes(clientes);
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                "Operacion exitosa - Nuevo saldo: L. " + String.format("%.2f", cliente.getSaldo()), null));
     }
 
     public void realizarRetiro() {
-        // TODO: implementar logica de retiro
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        Cliente cliente = buscarCliente(numeroCuenta);
+        if (cliente == null || !validarPin(cliente, pin)) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "PIN invalido", null));
+            return;
+        }
+
+        if (monto <= 0) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Monto invalido", null));
+            return;
+        }
+
+        if (cliente.getSaldo() < monto) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Saldo insuficiente", null));
+            return;
+        }
+
+        cliente.setSaldo(cliente.getSaldo() - monto);
+        CargaDatos.guardarClientes(clientes);
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                "Operacion exitosa - Nuevo saldo: L. " + String.format("%.2f", cliente.getSaldo()), null));
     }
 
     public void consultarSaldo() {
-        // TODO: implementar consulta de saldo
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        Cliente cliente = buscarCliente(numeroCuenta);
+        if (cliente == null || !validarPin(cliente, pin)) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "PIN invalido", null));
+            return;
+        }
+
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                "Saldo actual: L. " + String.format("%.2f", cliente.getSaldo()), null));
     }
 
     // Getters y Setters
